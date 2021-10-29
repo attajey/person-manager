@@ -45,8 +45,11 @@ class App extends Component {
       id: Math.floor(Math.random() * 1000),
       fullname: this.state.person,
     };
-    persons.push(person);
-    this.setState({ persons: persons, person: "" });
+    if (person.fullname !== "" && person.fullname !== " ") {
+      persons.push(person);
+      this.setState({ persons: persons, person: "" });
+    }
+
     // const lastID = persons.lastItem.id;
     // persons.push((id = lastID + 1), (fullname = event.target.value));
   };
@@ -57,6 +60,18 @@ class App extends Component {
 
   render() {
     const { persons, showPersons } = this.state;
+
+    let badgeStyle = [];
+
+    if (persons.length >= 3) {
+      badgeStyle.push("badge-success");
+    }
+    if (persons.length <= 2) {
+      badgeStyle.push("badge-warning");
+    }
+    if (persons.length <= 1) {
+      badgeStyle.push("badge-danger");
+    }
 
     // let person = null;
     // if (showPersons) {
@@ -70,7 +85,7 @@ class App extends Component {
         </div>
         <h5 className="alert alert-light">
           Number of Persons :{" "}
-          <span className="badge badge-pill badge-success">
+          <span className={`badge badge-pill ${badgeStyle.join(" ")}`}>
             {persons.length}
           </span>
         </h5>
@@ -99,8 +114,10 @@ class App extends Component {
           </form>
         </div>
 
-        <button className="btn btn-info" onClick={this.handleShowPerson}>
-          {""}
+        <button
+          className={showPersons ? "btn btn-info" : "btn btn-danger"}
+          onClick={this.handleShowPerson}
+        >
           {showPersons ? "Hide Persons" : "Show Persons"}
         </button>
 
