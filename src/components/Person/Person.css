@@ -1,0 +1,23 @@
+.person {
+  width: 40%;
+  border: 1px solid gray;
+  border-radius: 1em;
+  margin: 1em auto;
+  padding: 1em;
+  background-color: whitesmoke;
+}
+/*
+div {
+  cursor: pointer;
+}
+.person :hover {
+  border: 1px solid black;
+}
+button {
+  cursor: pointer;
+  margin: 10px 10px;
+}
+input {
+  height: 45px;
+  border-radius: 10px;
+} */
