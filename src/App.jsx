@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import Persons from "./components/Person/Persons";
 import "./App.css";
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
 
   handleShowPerson = () => {
     this.setState({ showPersons: !this.state.showPersons });
-    console.log(this.state.showPersons);
+    // console.log(this.state.showPersons);
   };
 
   handleDeletePerson = (id) => {
@@ -48,9 +49,14 @@ class App extends Component {
     if (person.fullname !== "" && person.fullname !== " ") {
       persons.push(person);
       this.setState({ persons: persons, person: "" });
+      // Toastifying
+      toast.success("New person added successfully !", {
+        position: "bottom-center",
+        closeButton: true,
+        closeOnClick: true,
+      });
     }
 
-    // const lastID = persons.lastItem.id;
     // persons.push((id = lastID + 1), (fullname = event.target.value));
   };
 
@@ -105,7 +111,7 @@ class App extends Component {
               />
               <div className="input-group-prepend">
                 <button
-                  className="btn btn-sm btn-success fa fa-plus-circle"
+                  className="btn btn-success fa fa-plus-circle"
                   type="submit"
                   onClick={this.handleNewPerson}
                 />
@@ -128,6 +134,8 @@ class App extends Component {
             personChange={this.handleNameChange}
           />
         ) : null}
+
+        <ToastContainer />
       </div>
     );
   }
