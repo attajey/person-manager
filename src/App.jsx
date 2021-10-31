@@ -20,6 +20,9 @@ class App extends Component {
     appTitle: "Person Manager",
   };
 
+  static contextType = SimpleContext;
+  //now if you have a context consumer, you can use : this.context
+
   handleShowPerson = () => {
     this.setState({ showPersons: !this.state.showPersons });
   };
