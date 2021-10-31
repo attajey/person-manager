@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import Persons from "./components/Person/Persons";
@@ -8,29 +8,19 @@ import SimpleContext from "./context/SimpleContext";
 
 import "./App.css";
 
-class App extends Component {
-  state = {
-    persons: [
-      // { id: 1, fullname: "Jimbo Jambo" },
-      // { id: 2, fullname: "Kimbo Kambo" },
-      // { id: 3, fullname: "Foko Loco" },
-    ],
-    person: "",
-    showPersons: true,
-    appTitle: "Person Manager",
+const App = () => {
+  const [getPersons, setPersons] = useState([]);
+  const [getSinglePerson, setSinglePerson] = useState("");
+  const [getShowPersons, setShowPersons] = useState(true);
+
+  const handleShowPerson = () => {
+    setShowPersons(!getShowPersons);
   };
 
-  static contextType = SimpleContext;
-  //now if you have a context consumer, you can use : this.context
-
-  handleShowPerson = () => {
-    this.setState({ showPersons: !this.state.showPersons });
-  };
-
-  handleDeletePerson = (id) => {
-    const persons = [...this.state.persons];
+  const handleDeletePerson = (id) => {
+    const persons = [...getPersons];
     const filteredPersons = persons.filter((p) => p.id !== id);
-    this.setState({ persons: filteredPersons });
+    setPersons(filteredPersons);
 
     const personIndex = persons.findIndex((p) => p.id === id);
     const person = persons[personIndex];
@@ -41,31 +31,26 @@ class App extends Component {
     });
   };
 
-  handleNameChange = (event, id) => {
-    // const { persons: allPersons } = this.state;
-    // const personIndex = allPersons.findIndex((p) => p.id === id);
-    // const person = allPersons[personIndex];
-    // person.fullname = event.target.value;
-    // const persons = [...allPersons];
-    // persons[personIndex] = person;
-    // this.setState({ persons });
-    const persons = [...this.state.persons];
+  const handleNameChange = (event, id) => {
+    const persons = [...getPersons];
     const personIndex = persons.findIndex((p) => p.id === id);
     const targetedPerson = persons[personIndex];
     targetedPerson.fullname = event.target.value;
     persons[personIndex] = targetedPerson;
-    this.setState({ persons: persons }); //this.setState({persons});
+    setPersons(persons);
   };
 
-  handleNewPerson = (event, fullname) => {
-    const persons = [...this.state.persons];
+  const handleNewPerson = (event, fullname) => {
+    const persons = [...getPersons];
     const person = {
       id: Math.floor(Math.random() * 1000),
-      fullname: this.state.person,
+      fullname: getSinglePerson,
     };
     if (person.fullname !== "" && person.fullname !== " ") {
       persons.push(person);
-      this.setState({ persons: persons, person: "" });
+      setPersons(persons);
+      setSinglePerson("");
+
       // Toastifying
       toast.success("New person added successfully !", {
         position: "bottom-center",
@@ -75,49 +60,40 @@ class App extends Component {
     }
   };
 
-  setPerson = (event) => {
-    this.setState({ person: event.target.value });
+  const setPerson = (event) => {
+    setSinglePerson(event.target.value);
   };
 
-  render() {
-    const { persons, showPersons } = this.state;
+  return (
+    <SimpleContext.Provider
+      value={{
+        persons: getPersons,
+        person: getSinglePerson,
+        handleDeletePerson: handleDeletePerson,
+        handleNameChange: handleNameChange,
+        handleNewPerson: handleNewPerson,
+        setPerson: setPerson,
+      }}
+    >
+      <div className="text-center">
+        {/* WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING ! */}
+        <Header appTitle="Person Manager" />
 
-    return (
-      <SimpleContext.Provider
-        value={{
-          state: this.state,
-          handleDeletePerson: this.handleDeletePerson,
-          handleNameChange: this.handleNameChange,
-          handleNewPerson: this.handleNewPerson,
-          setPerson: this.setPerson,
-        }}
-      >
-        <div className="text-center">
-          {/* WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING ! */}
-          <Header />
+        <NewPerson />
 
-          <NewPerson />
+        <button
+          className={getShowPersons ? "btn btn-info" : "btn btn-danger"}
+          onClick={handleShowPerson}
+        >
+          {getShowPersons ? "Hide Persons" : "Show Persons"}
+        </button>
 
-          <button
-            className={showPersons ? "btn btn-info" : "btn btn-danger"}
-            onClick={this.handleShowPerson}
-          >
-            {showPersons ? "Hide Persons" : "Show Persons"}
-          </button>
+        {getShowPersons ? <Persons /> : null}
 
-          {showPersons ? (
-            <Persons
-            // persons={persons}
-            // personDelete={this.handleDeletePerson}
-            // personChange={this.handleNameChange}
-            />
-          ) : null}
-
-          <ToastContainer />
-        </div>
-      </SimpleContext.Provider>
-    );
-  }
-}
+        <ToastContainer />
+      </div>
+    </SimpleContext.Provider>
+  );
+};
 
 export default App;

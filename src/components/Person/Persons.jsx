@@ -7,10 +7,8 @@ const Persons = () => {
   const { handleDeletePerson, handleNameChange } = context;
 
   return (
-    // <SimpleContext.Consumer>
-    // {(context) => (
     <div>
-      {context.state.persons.map((person) => (
+      {context.persons.map((person) => (
         <Person
           key={person.id}
           fullname={person.fullname}
@@ -19,8 +17,6 @@ const Persons = () => {
         />
       ))}
     </div>
-    // )}
-    // </SimpleContext.Consumer>
   );
 };
 

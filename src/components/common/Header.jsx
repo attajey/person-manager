@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import SimpleContext from "../../context/SimpleContext";
 
-const Header = () => {
+const Header = ({ appTitle }) => {
   const context = useContext(SimpleContext);
 
-  const { persons, appTitle } = context.state;
+  const { persons } = context;
 
   let badgeStyle = "";
 
@@ -19,8 +19,6 @@ const Header = () => {
   }
 
   return (
-    // <SimpleContext.Consumer>
-    // {(context) => (
     <div>
       <div className="alert alert-info">
         <h2>{appTitle}</h2>
@@ -32,8 +30,6 @@ const Header = () => {
         </span>
       </h5>
     </div>
-    // )}
-    // </SimpleContext.Consumer>
   );
 };
 

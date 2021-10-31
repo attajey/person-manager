@@ -5,11 +5,9 @@ import SimpleContext from "../../context/SimpleContext";
 const NewPerson = () => {
   const context = useContext(SimpleContext);
   const { setPerson, handleNewPerson } = context;
-  const { person } = context.state;
+  const { person } = context;
 
   return (
-    // <SimpleContext.Consumer>
-    // {(context) => (
     <div className="m-2 p-2">
       <form
         className="form-inline justify-content-center"
@@ -33,8 +31,6 @@ const NewPerson = () => {
         </div>
       </form>
     </div>
-    // )}
-    // </SimpleContext.Consumer>
   );
 };
 
