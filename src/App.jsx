@@ -79,11 +79,6 @@ class App extends Component {
   render() {
     const { persons, showPersons } = this.state;
 
-    // let person = null;
-    // if (showPersons) {
-    //   person = <Persons persons={persons} />;
-    // }
-
     return (
       <SimpleContext.Provider
         value={{
@@ -95,35 +90,10 @@ class App extends Component {
         }}
       >
         <div className="text-center">
-          <Header
-          // WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING !
-          // personsLength={persons.length}
-          // appTitle={this.state.appTitle}
-          />
+          {/* WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING ! */}
+          <Header />
 
           <NewPerson />
-          {/* <div className="m-2 p-2">
-            <form
-              className="form-inline justify-content-center"
-              onSubmit={(event) => event.preventDefault()}
-            >
-              <div className="input-group w-25">
-                <input
-                  type="text"
-                  placeholder="Give me a name !"
-                  className="form-control"
-                  onChange={this.setPerson}
-                />
-                <div className="input-group-prepend">
-                  <button
-                    className="btn btn-success fa fa-plus-circle"
-                    type="submit"
-                    onClick={this.handleNewPerson}
-                  />
-                </div>
-              </div>
-            </form>
-          </div> */}
 
           <button
             className={showPersons ? "btn btn-info" : "btn btn-danger"}
@@ -134,9 +104,9 @@ class App extends Component {
 
           {showPersons ? (
             <Persons
-              persons={persons}
-              personDelete={this.handleDeletePerson}
-              personChange={this.handleNameChange}
+            // persons={persons}
+            // personDelete={this.handleDeletePerson}
+            // personChange={this.handleNameChange}
             />
           ) : null}
 
