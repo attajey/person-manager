@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
 import Persons from "./components/Person/Persons";
+import NewPerson from "./components/Person/NewPerson";
+import Header from "./components/common/Header";
+import SimpleContext from "./context/SimpleContext";
+
 import "./App.css";
+
 class App extends Component {
   state = {
     persons: [
@@ -11,11 +17,11 @@ class App extends Component {
     ],
     person: "",
     showPersons: true,
+    appTitle: "Person Manager",
   };
 
   handleShowPerson = () => {
     this.setState({ showPersons: !this.state.showPersons });
-    // console.log(this.state.showPersons);
   };
 
   handleDeletePerson = (id) => {
@@ -64,8 +70,6 @@ class App extends Component {
         closeOnClick: true,
       });
     }
-
-    // persons.push((id = lastID + 1), (fullname = event.target.value));
   };
 
   setPerson = (event) => {
@@ -75,76 +79,70 @@ class App extends Component {
   render() {
     const { persons, showPersons } = this.state;
 
-    let badgeStyle = [];
-
-    if (persons.length >= 3) {
-      badgeStyle.push("badge-success");
-    }
-    if (persons.length <= 2) {
-      badgeStyle.push("badge-warning");
-    }
-    if (persons.length <= 1) {
-      badgeStyle.push("badge-danger");
-    }
-
     // let person = null;
     // if (showPersons) {
     //   person = <Persons persons={persons} />;
     // }
 
     return (
-      <div className="text-center">
-        <div className="alert alert-info">
-          <h2>Person Manager</h2>
-        </div>
-        <h5 className="alert alert-light">
-          Number of Persons :{" "}
-          <span className={`badge badge-pill ${badgeStyle.join(" ")}`}>
-            {persons.length}
-          </span>
-        </h5>
-
-        <div className="m-2 p-2">
-          <form
-            className="form-inline justify-content-center"
-            onSubmit={(event) => event.preventDefault()}
-          >
-            <div className="input-group w-25">
-              <input
-                type="text"
-                placeholder="Give me a name !"
-                className="form-control"
-                onChange={this.setPerson}
-                value={this.state.person}
-              />
-              <div className="input-group-prepend">
-                <button
-                  className="btn btn-success fa fa-plus-circle"
-                  type="submit"
-                  onClick={this.handleNewPerson}
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <button
-          className={showPersons ? "btn btn-info" : "btn btn-danger"}
-          onClick={this.handleShowPerson}
-        >
-          {showPersons ? "Hide Persons" : "Show Persons"}
-        </button>
-
-        {showPersons ? (
-          <Persons
-            persons={persons}
-            personDelete={this.handleDeletePerson}
-            personChange={this.handleNameChange}
+      <SimpleContext.Provider
+        value={{
+          state: this.state,
+          handleDeletePerson: this.handleDeletePerson,
+          handleNameChange: this.handleNameChange,
+          handleNewPerson: this.handleNewPerson,
+          setPerson: this.setPerson,
+        }}
+      >
+        <div className="text-center">
+          <Header
+          // WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING !
+          // personsLength={persons.length}
+          // appTitle={this.state.appTitle}
           />
-        ) : null}
 
-        <ToastContainer />
-      </div>
+          <NewPerson />
+          {/* <div className="m-2 p-2">
+            <form
+              className="form-inline justify-content-center"
+              onSubmit={(event) => event.preventDefault()}
+            >
+              <div className="input-group w-25">
+                <input
+                  type="text"
+                  placeholder="Give me a name !"
+                  className="form-control"
+                  onChange={this.setPerson}
+                />
+                <div className="input-group-prepend">
+                  <button
+                    className="btn btn-success fa fa-plus-circle"
+                    type="submit"
+                    onClick={this.handleNewPerson}
+                  />
+                </div>
+              </div>
+            </form>
+          </div> */}
+
+          <button
+            className={showPersons ? "btn btn-info" : "btn btn-danger"}
+            onClick={this.handleShowPerson}
+          >
+            {showPersons ? "Hide Persons" : "Show Persons"}
+          </button>
+
+          {showPersons ? (
+            <Persons
+              persons={persons}
+              personDelete={this.handleDeletePerson}
+              personChange={this.handleNameChange}
+            />
+          ) : null}
+
+          <ToastContainer />
+        </div>
+      </SimpleContext.Provider>
     );
   }
 }
