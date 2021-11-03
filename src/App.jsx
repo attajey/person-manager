@@ -6,10 +6,10 @@ import NewPerson from "./components/Person/NewPerson";
 import Header from "./components/common/Header";
 import SimpleContext from "./context/SimpleContext";
 import TopLearn from "./components/HOC/Topleran";
-
+import Bazinga from "./components/HOC/Bazinga";
 import "./App.css";
 
-const App = () => {
+const App = (props) => {
   const [getPersons, setPersons] = useState([]);
   const [getSinglePerson, setSinglePerson] = useState("");
   const [getShowPersons, setShowPersons] = useState(true);
@@ -77,28 +77,29 @@ const App = () => {
       }}
     >
       {/* <Fragment> */}
-      <TopLearn classes="text-center">
-        {/* <div className=""> */}
-        {/* WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING ! */}
-        <Header appTitle="Person Manager" />
+      {/* <TopLearn classes="text-center"> */}
+      {/* <div className=""> */}
+      {/* WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING ! */}
+      <h2>{props.appTitle}</h2>
+      <Header appTitle="Person Manager" />
 
-        <NewPerson />
+      <NewPerson />
 
-        <button
-          className={getShowPersons ? "btn btn-info" : "btn btn-danger"}
-          onClick={handleShowPerson}
-        >
-          {getShowPersons ? "Hide Persons" : "Show Persons"}
-        </button>
+      <button
+        className={getShowPersons ? "btn btn-info" : "btn btn-danger"}
+        onClick={handleShowPerson}
+      >
+        {getShowPersons ? "Hide Persons" : "Show Persons"}
+      </button>
 
-        {getShowPersons ? <Persons /> : null}
+      {getShowPersons ? <Persons /> : null}
 
-        <ToastContainer />
-        {/* </div> */}
-        {/* </Fragment> */}
-      </TopLearn>
+      <ToastContainer />
+      {/* </div> */}
+      {/* </Fragment> */}
+      {/* </TopLearn> */}
     </SimpleContext.Provider>
   );
 };
 
-export default App;
+export default Bazinga(App);
