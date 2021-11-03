@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import Persons from "./components/Person/Persons";
 import NewPerson from "./components/Person/NewPerson";
 import Header from "./components/common/Header";
 import SimpleContext from "./context/SimpleContext";
+import TopLearn from "./components/HOC/Topleran";
 
 import "./App.css";
 
@@ -75,7 +76,9 @@ const App = () => {
         setPerson: setPerson,
       }}
     >
-      <div className="text-center">
+      {/* <Fragment> */}
+      <TopLearn classes="text-center">
+        {/* <div className=""> */}
         {/* WE USED CONTEXT API FOR THIS. NO MORE PROPS DRILLING ! */}
         <Header appTitle="Person Manager" />
 
@@ -91,7 +94,9 @@ const App = () => {
         {getShowPersons ? <Persons /> : null}
 
         <ToastContainer />
-      </div>
+        {/* </div> */}
+        {/* </Fragment> */}
+      </TopLearn>
     </SimpleContext.Provider>
   );
 };
